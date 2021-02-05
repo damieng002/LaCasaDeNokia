@@ -55,9 +55,23 @@ public class GameManager
 
     public void KeyPressed(char key)
     {
-        if (_state == State.MENU && key == '0')
+        if (_state == State.MENU && key == '0'){LoadNewLevel(0);}
+
+        if (_state == State.LEVEL)
         {
-            LoadNewLevel(0);
+            if (key == '*') _displayRef.SetScreenToShow(0);
+            else
+            {
+                int cameraNo = int.Parse(key.ToString());
+                if (cameraNo == 0)
+                {
+                    // switch camera on/off
+                }
+                else if (cameraNo <= _crtLevel.NbOfCameras)
+                {
+                    _displayRef.SetScreenToShow(cameraNo);
+                }
+            }
         }
     }
 

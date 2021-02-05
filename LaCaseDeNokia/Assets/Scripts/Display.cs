@@ -42,6 +42,11 @@ public class Display : MonoBehaviour
         this.screenToShow = 0;
     }
 
+    public void SetScreenToShow(int screenToShow)
+    {
+        this.screenToShow = screenToShow;
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha0) || Input.GetKeyDown(KeyCode.Keypad0)){GameManager.Instance.KeyPressed('0');}
