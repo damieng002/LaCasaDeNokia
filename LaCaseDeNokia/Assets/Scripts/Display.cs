@@ -32,8 +32,22 @@ public class Display : MonoBehaviour
                 pixels[x, HEIGHT-y-1] = tmp.GetComponent<SpriteRenderer>();
             }
         }
-        screens.Add(new SampleScreen());
-        screenToShow = 0;
+        GameManager.Instance.SetDisplayRef(this);
+        GameManager.Instance.LoadMenu();
+    }
+
+    public void SetScreens(List<Screen> screens)
+    {
+        this.screens = screens;
+        this.screenToShow = 0;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Keypad0))
+        {
+            GameManager.Instance.KeyPressed('0');
+        }
     }
 
     private void FixedUpdate()
