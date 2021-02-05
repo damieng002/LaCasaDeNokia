@@ -18,7 +18,19 @@ public class GameManager
     
     private GameManager()
     {
-        Level level = new Level(1, 1, 1,10, 10, new Position[0], new SampleSprite(0, 0), new Sprite[0], new Position[]{new Position(0,0)}, new int[]{10});
+        Position[] waypoints = {new Position(710, 280), new Position(170, 280)};
+        Position[] cameraPosition = {new Position(220, 380)};
+        Level level = new Level(
+            1, 
+            1, 
+            1,
+            840, 
+            480, 
+            waypoints, 
+            new MapLevel1(0, 0), 
+            new Sprite[0], 
+            cameraPosition, 
+            new int[]{15});
         levels.Add(level);
     }
 

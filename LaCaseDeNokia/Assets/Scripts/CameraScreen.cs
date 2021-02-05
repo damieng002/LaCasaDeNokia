@@ -7,7 +7,7 @@ using UnityEngine;
 public class CameraScreen: Screen
 {
     private List<Character> characters = new List<Character>();
-    private Sprite _bgMap;
+    private Sprite _background;
     private bool _state = true;
     private readonly int _positionX;
     private readonly int _positionY;
@@ -20,7 +20,7 @@ public class CameraScreen: Screen
         _positionY = y;
         _width = width;
         _height = width / (84 / 48);
-        _bgMap = bg;
+        _background = bg;
     }
 
     private bool ChangeState()
@@ -36,7 +36,19 @@ public class CameraScreen: Screen
 
     public override bool[,] BuildFrame()
     {
-        throw new System.NotImplementedException();
+        bool[,] screen = new bool[84, 48];
+        Utils.AddSpriteOnScreen(screen,_background);
+        for (int i = 0 ; i < characters.Count; i++)
+        {
+            int width = GameManager.Instance.GetCrtLevel().MapWidth;
+            int height = GameManager.Instance.GetCrtLevel().MapHeight;
+            Position posWorld = GameManager.Instance.GetThiefWorldPosition(i);
+            characters[i].SetPosition(
+                posWorld.X() * (width / 84) + _positionX, 
+                posWorld.Y() * (height / 48) + _positionY);
+            Utils.AddSpriteOnScreen(screen, characters[i]);
+        }
+        return screen;
     }
 
     private bool PositionIsInCamera(int x, int y)
