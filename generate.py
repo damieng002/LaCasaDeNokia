@@ -17,7 +17,7 @@ if(len(input_files)==1):
     for x in range(0,w):
         pixels_content+="{"
         for y in range(0,h):
-            if px[x,y][3]<128:
+            if len(px[x,y])>3 and px[x,y][3]<128:
                 pixels_content+="t"
             elif sum(px[x,y][0:3])/3<128:
                 pixels_content+="d"
