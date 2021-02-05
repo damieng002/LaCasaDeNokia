@@ -14,7 +14,7 @@ public class CameraScreen: Screen
     private readonly int _height;
     private Random r = new Random();
 
-    protected CameraScreen(int x, int y, int width, Sprite bg)
+    public CameraScreen(int x, int y, int width, Sprite bg)
     {
         _positionX = x;
         _positionY = y;
