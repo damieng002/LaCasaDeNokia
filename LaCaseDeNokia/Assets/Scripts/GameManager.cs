@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.U2D;
-using UnityEngine;
 
 public class GameManager
 {
@@ -11,20 +9,16 @@ public class GameManager
         LEVEL
     }
     
-    private int _nbOfThieves = 1;
-    private int _nbOfCameras = 1;
     private Position[] _thievesPositions;
-    private int _mapWidth;
-    private int _mapHeight;
-    private Position[] _waypoints;
-    private Sprite _bgMap;
-    private Sprite[] _bgCameras;
+    private Position[] _ratsPositions;
     private Display _displayRef;
     private State _state = State.MENU;
-
+    private List<Level> levels = new List<Level>();
+    private Level _crtLevel;
+    
     private GameManager()
     {
-        
+        Level level = new Level(1, 1, 1,10, 10, new Position[0], new SampleSprite(0, 0), new Sprite[0], new Position[]{new Position(0,0)}, new int[]{10});
     }
 
     public void LoadMenu()
@@ -35,19 +29,14 @@ public class GameManager
         _displayRef.SetScreens(screens);
     }
 
-    public void LoadNewLevel(int nbOfThieves, int nbOfCameras, int mapWidth, int mapHeight, Position[] waypoints, Sprite bgMap, Sprite[] bgCameras)
+    public void LoadNewLevel(int index)
     {
+        _crtLevel = levels[index];
         _state = State.LEVEL;
-        _nbOfThieves = nbOfThieves;
-        _nbOfCameras = nbOfCameras;
-        _waypoints = waypoints;
-        _thievesPositions = new Position[nbOfThieves];
-        _mapHeight = mapHeight;
-        _mapWidth = mapWidth;
-        _bgMap = bgMap;
-        _bgCameras = bgCameras;
+        _thievesPositions = new Position[_crtLevel.NbOfThieves];
+        _thievesPositions = new Position[_crtLevel.NbOfRats];
         List<Screen> screens = new List<Screen>();
-        screens.Add(new MapScreen(bgMap));
+        screens.Add(new MapScreen(_crtLevel.BgMap));
         _displayRef.SetScreens(screens);
     }
 
@@ -55,8 +44,23 @@ public class GameManager
     {
         if (_state == State.MENU && key == '0')
         {
-            LoadNewLevel(0, 0, 10, 10, new Position[0], new SampleSprite(0, 0), new Sprite[0]);
+            LoadNewLevel(0);
         }
+    }
+
+    public Position GetThiefWorldPosition(int index)
+    {
+        return _thievesPositions[index];
+    }
+    
+    public Position GetRatWorldPosition(int index)
+    {
+        return _ratsPositions[index];
+    }
+
+    public Level GetCrtLevel()
+    {
+        return _crtLevel;
     }
     
     public void SetDisplayRef(Display displayRef)
