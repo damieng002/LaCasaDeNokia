@@ -100,7 +100,7 @@ else:
 
         public override Colors[,] GetSpriteArray(){
             crtFrame = (crtFrame + 1) % spriteList.Count;
-            return spriteArray;
+            return spriteList[crtFrame];
         }
     }
     """
