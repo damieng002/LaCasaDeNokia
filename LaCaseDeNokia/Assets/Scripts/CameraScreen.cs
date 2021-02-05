@@ -1,8 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.Compilation;
-using UnityEngine;
+using System;
 
 public class CameraScreen: Screen
 {
@@ -13,6 +12,7 @@ public class CameraScreen: Screen
     private readonly int _positionY;
     private readonly int _width;
     private readonly int _height;
+    private Random r = new Random();
 
     protected CameraScreen(int x, int y, int width, Sprite bg)
     {
@@ -37,16 +37,30 @@ public class CameraScreen: Screen
     public override bool[,] BuildFrame()
     {
         bool[,] screen = new bool[84, 48];
-        Utils.AddSpriteOnScreen(screen,_background);
-        for (int i = 0 ; i < characters.Count; i++)
+        if (_state)
         {
-            int width = GameManager.Instance.GetCrtLevel().MapWidth;
-            int height = GameManager.Instance.GetCrtLevel().MapHeight;
-            Position posWorld = GameManager.Instance.GetThiefWorldPosition(i);
-            characters[i].SetPosition(
-                posWorld.X() * (width / 84) + _positionX, 
-                posWorld.Y() * (height / 48) + _positionY);
-            Utils.AddSpriteOnScreen(screen, characters[i]);
+            Utils.AddSpriteOnScreen(screen,_background);
+            for (int i = 0 ; i < characters.Count; i++)
+            {
+                int width = GameManager.Instance.GetCrtLevel().MapWidth;
+                int height = GameManager.Instance.GetCrtLevel().MapHeight;
+                Position posWorld = GameManager.Instance.GetThiefWorldPosition(i);
+                characters[i].SetPosition(
+                    posWorld.X() * (width / 84) + _positionX, 
+                    posWorld.Y() * (height / 48) + _positionY);
+                Utils.AddSpriteOnScreen(screen, characters[i]);
+            }
+        }
+        else
+        {
+            for (int x = 0; x < 84; x++)
+            {
+                for (int y = 0; y < 48; y++)
+                {
+                    screen[x, y] = r.NextDouble() > 0.5;
+                }
+            }
+            //Utils.AddSpriteOnScreen(screen, characters[i]);
         }
         return screen;
     }
