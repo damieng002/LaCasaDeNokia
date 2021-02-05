@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.U2D;
+using UnityEngine;
 
 public class GameManager
 {
@@ -47,6 +48,7 @@ public class GameManager
         _bgCameras = bgCameras;
         List<Screen> screens = new List<Screen>();
         screens.Add(new MapScreen(bgMap));
+        _displayRef.SetScreens(screens);
     }
 
     public void KeyPressed(char key)
