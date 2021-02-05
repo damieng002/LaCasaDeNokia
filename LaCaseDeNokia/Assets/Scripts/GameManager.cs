@@ -29,7 +29,7 @@ public class GameManager
             480, 
             waypoints, 
             new MapLevel1(0, 0), 
-            new Sprite[0], 
+            new Sprite[] {new Cam1Level1(0,0)}, 
             cameraPosition, 
             new int[]{15});
         levels.Add(level);
@@ -54,7 +54,7 @@ public class GameManager
         screens.Add(new MapScreen(_crtLevel.BgMap));
         for (int i = 0; i < _crtLevel.NbOfCameras; i++)
         {
-            screens.Add(new CameraScreen(_crtLevel.CamerasPosition[i].X(),_crtLevel.CamerasPosition[i].Y(),_crtLevel.CamerasWidth[i],_crtLevel.BgCameras[i]));
+            screens.Add(new CameraScreen(_crtLevel.CamerasPosition[i].X(),_crtLevel.CamerasPosition[i].Y(),_crtLevel.CamerasWidth[i],_crtLevel.BgCameras[i], i));
         }
         
         _displayRef.SetScreens(screens);

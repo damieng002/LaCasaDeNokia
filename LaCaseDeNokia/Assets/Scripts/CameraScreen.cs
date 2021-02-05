@@ -5,6 +5,7 @@ using System;
 
 public class CameraScreen: Screen
 {
+    private int _index;
     private List<Character> characters = new List<Character>();
     private Sprite _background;
     private bool _state = true;
@@ -13,22 +14,19 @@ public class CameraScreen: Screen
     private readonly int _width;
     private readonly int _height;
     private Random r = new Random();
+    private int timerOffline = 0;
+    private readonly int _gameOverTime = 10;
 
-    public CameraScreen(int x, int y, int width, Sprite bg)
+    public CameraScreen(int x, int y, int width, Sprite bg, int index)
     {
         _positionX = x;
         _positionY = y;
         _width = width;
         _height = width / (84 / 48);
         _background = bg;
+        _index = index;
     }
 
-    private bool ChangeState()
-    {
-        _state = !_state;
-        return _state;
-    }
-    
     private bool ThiefIsHere()
     {
         return characters.Any(character => character is Thief && PositionIsInCamera(character.getX(), character.getX()));
@@ -37,8 +35,9 @@ public class CameraScreen: Screen
     public override bool[,] BuildFrame()
     {
         bool[,] screen = new bool[84, 48];
-        if (_state)
+        if (GameManager.Instance.GetCameraState(_index))
         {
+            timerOffline = 0;
             Utils.AddSpriteOnScreen(screen,_background);
             for (int i = 0 ; i < characters.Count; i++)
             {
@@ -53,6 +52,11 @@ public class CameraScreen: Screen
         }
         else
         {
+            timerOffline++;
+            if (timerOffline > _gameOverTime)
+            {
+                //GameManager.Instance.Loose();
+            }
             for (int x = 0; x < 84; x++)
             {
                 for (int y = 0; y < 48; y++)
