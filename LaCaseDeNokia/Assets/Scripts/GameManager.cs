@@ -11,6 +11,7 @@ public class GameManager
     
     private Position[] _thievesPositions;
     private Position[] _ratsPositions;
+    private bool[] _camerasStates;
     private Display _displayRef;
     private State _state = State.MENU;
     private List<Level> levels = new List<Level>();
@@ -48,8 +49,14 @@ public class GameManager
         _state = State.LEVEL;
         _thievesPositions = new Position[_crtLevel.NbOfThieves];
         _thievesPositions = new Position[_crtLevel.NbOfRats];
+        _camerasStates = new bool[_crtLevel.NbOfCameras];
         List<Screen> screens = new List<Screen>();
         screens.Add(new MapScreen(_crtLevel.BgMap));
+        for (int i = 0; i < _crtLevel.NbOfCameras; i++)
+        {
+            screens.Add(new CameraScreen(_crtLevel.CamerasPosition[i].X(),_crtLevel.CamerasPosition[i].Y(),_crtLevel.CamerasWidth[i],_crtLevel.BgCameras[i]));
+        }
+        
         _displayRef.SetScreens(screens);
     }
 
@@ -65,7 +72,7 @@ public class GameManager
                 int cameraNo = int.Parse(key.ToString());
                 if (cameraNo == 0)
                 {
-                    // switch camera on/off
+                    if (_displayRef.ScreenToShow > 0) _camerasStates[_displayRef.ScreenToShow - 1]^=true;
                 }
                 else if (cameraNo <= _crtLevel.NbOfCameras)
                 {
@@ -83,6 +90,11 @@ public class GameManager
     public Position GetRatWorldPosition(int index)
     {
         return _ratsPositions[index];
+    }
+    
+    public bool GetCameraState(int index)
+    {
+        return _camerasStates[index];
     }
 
     public Level GetCrtLevel()

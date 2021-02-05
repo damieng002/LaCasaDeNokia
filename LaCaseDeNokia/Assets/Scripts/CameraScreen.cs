@@ -14,7 +14,7 @@ public class CameraScreen: Screen
     private readonly int _width;
     private readonly int _height;
 
-    protected CameraScreen(int x, int y, int width, Sprite bg)
+    public CameraScreen(int x, int y, int width, Sprite bg)
     {
         _positionX = x;
         _positionY = y;
