@@ -27,9 +27,9 @@ using System.Collections;
 ,{t,t,t,d,d,d,d,d,t}
 ,{t,t,d,d,d,d,d,d,t}
 ,{t,d,d,d,d,d,d,d,t}
-,{d,t,t,d,d,d,d,d,t}
+,{d,l,l,d,d,d,d,d,t}
 ,{t,d,d,d,d,d,d,d,t}
-,{t,t,t,t,d,t,d,d,d}
+,{t,t,t,t,d,l,d,d,d}
 ,{t,t,t,t,d,d,d,d,t}
 ,{t,t,t,t,t,d,d,d,t}
 ,{t,t,t,t,t,t,d,t,t}
@@ -48,9 +48,9 @@ spriteList.Add(new Colors[,] {{t,t,t,d,t,t,t,t,t}
 ,{t,t,t,d,d,d,d,d,t}
 ,{t,t,d,d,d,d,d,d,t}
 ,{t,d,d,d,d,d,d,d,t}
-,{d,t,t,d,d,d,d,d,t}
+,{d,l,l,d,d,d,d,d,t}
 ,{t,d,d,d,d,d,d,d,t}
-,{t,t,t,t,d,t,d,d,d}
+,{t,t,t,t,d,l,d,d,d}
 ,{t,t,t,t,d,d,d,d,t}
 ,{t,t,t,t,t,d,d,d,t}
 ,{t,t,t,t,t,t,d,t,t}

@@ -15,27 +15,27 @@ using System.Collections;
         {
             spriteList.Add(new Colors[,] {{t,t,d,d,d,t,t,t,t}
 ,{t,d,d,d,d,d,t,t,t}
-,{d,d,t,t,t,d,d,d,d}
-,{d,d,t,d,t,d,d,t,t}
-,{d,d,t,t,t,d,d,t,t}
-,{d,d,t,d,t,d,d,d,t}
-,{t,d,t,t,d,d,t,t,d}
+,{d,d,l,l,l,d,d,d,d}
+,{d,d,l,d,l,d,d,t,t}
+,{d,d,l,l,l,d,d,t,t}
+,{d,d,l,d,l,d,d,d,t}
+,{t,d,l,l,d,d,t,t,d}
 });
 spriteList.Add(new Colors[,] {{t,t,d,d,d,t,t,t,t}
 ,{t,d,d,d,d,d,t,t,d}
-,{d,d,t,t,t,d,d,d,t}
-,{d,d,t,d,t,d,d,t,t}
-,{d,d,t,t,t,d,d,t,t}
-,{d,d,t,d,t,d,d,d,d}
-,{t,d,t,t,d,d,t,t,t}
+,{d,d,l,l,l,d,d,d,t}
+,{d,d,l,d,l,d,d,t,t}
+,{d,d,l,l,l,d,d,t,t}
+,{d,d,l,d,l,d,d,d,d}
+,{t,d,l,l,d,d,t,t,t}
 });
 spriteList.Add(new Colors[,] {{t,t,d,d,d,t,t,t,t}
 ,{t,d,d,d,d,d,t,t,t}
-,{d,d,t,t,t,d,d,d,d}
-,{d,d,t,d,t,d,d,t,t}
-,{d,d,t,t,t,d,d,t,d}
-,{d,d,t,d,t,d,d,d,t}
-,{t,d,t,t,d,d,t,t,t}
+,{d,d,l,l,l,d,d,d,d}
+,{d,d,l,d,l,d,d,t,t}
+,{d,d,l,l,l,d,d,t,d}
+,{d,d,l,d,l,d,d,d,t}
+,{t,d,l,l,d,d,t,t,t}
 });
         }
 
