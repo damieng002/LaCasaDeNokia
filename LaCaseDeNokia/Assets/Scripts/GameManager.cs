@@ -19,6 +19,7 @@ public class GameManager
     private GameManager()
     {
         Level level = new Level(1, 1, 1,10, 10, new Position[0], new SampleSprite(0, 0), new Sprite[0], new Position[]{new Position(0,0)}, new int[]{10});
+        levels.Add(level);
     }
 
     public void LoadMenu()
