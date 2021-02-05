@@ -11,10 +11,30 @@ public class Utils
         {
             for (int y = 0; y < input.GetLength(1); y++)
             {
-                tmp[x, y] = input[input.GetLength(0) - x, y];
+                tmp[x, y] = input[input.GetLength(0) - x-1, y];
             }
         }
 
         return tmp;
     }
+
+    public static void AddSpriteOnScreen(bool[,] input, Sprite sprite)
+    {
+        Sprite.Colors[,] spriteArray = sprite.GetSpriteArray();
+        for(int x=0; x<spriteArray.GetLength(0);x++)
+        {
+            for(int y=0; y<spriteArray.GetLength(1);y++)
+            {
+                if (spriteArray[x,y]!=Sprite.Colors.Transparent 
+                    && x + sprite.getX() > 0 
+                    && x + sprite.getX() < input.GetLength(0)
+                    && y + sprite.getY() > 0 
+                    && y + sprite.getY() < input.GetLength(1))
+                {
+                    input[x + sprite.getX(), y + sprite.getY()] = spriteArray[x, y] == Sprite.Colors.Dark;
+                }
+            }
+        }
+    }
 }
+

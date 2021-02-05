@@ -12,9 +12,10 @@ public class SampleScreen : Screen
         {
             for (int y = 0; y < 48; y++)
             {
-                frame[x, y] = r.NextDouble() > 0.5;
+                frame[x, y] = false;//r.NextDouble() > 0.5;
             }
         }
+        Utils.AddSpriteOnScreen(frame,new SampleSprite(0,0));
 
         return frame;
     }

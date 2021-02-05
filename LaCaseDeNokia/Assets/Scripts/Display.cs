@@ -29,7 +29,7 @@ public class Display : MonoBehaviour
             {
                 GameObject tmp = Instantiate(pixelPrefab);
                 tmp.transform.position = new Vector3(x-WIDTH/2+0.5f,y-HEIGHT/2+0.5f,-1);
-                pixels[x, y] = tmp.GetComponent<SpriteRenderer>();
+                pixels[x, HEIGHT-y-1] = tmp.GetComponent<SpriteRenderer>();
             }
         }
         screens.Add(new SampleScreen());

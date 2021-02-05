@@ -27,5 +27,5 @@ public abstract class Sprite
     public int getX() { return _x; }
     public int getY() { return _y; }
 
-    public abstract Colors[,] GetColors();
+    public abstract Colors[,] GetSpriteArray();
 }
