@@ -19,9 +19,10 @@ public class Utils
         return tmp;
     }
 
-    public static void AddSpriteOnScreen(bool[,] input, Sprite sprite)
+    public static void AddSpriteOnScreen(bool[,] input, Sprite sprite,bool flipX=false)
     {
         Sprite.Colors[,] spriteArray = sprite.GetSpriteArray();
+        if (flipX) spriteArray = Utils.FlipX(spriteArray);
         for(int x=0; x<spriteArray.GetLength(0);x++)
         {
             for(int y=0; y<spriteArray.GetLength(1);y++)

@@ -80,6 +80,7 @@ public class GameManager
 
     public void LoadLoose()
     {
+        _displayRef.PlaySound("police");
         _state = State.GAMEOVER;
         List<Screen> screens = new List<Screen>();
         screens.Add(new GameOverScreen());
@@ -90,8 +91,6 @@ public class GameManager
     {
         if (_state == State.MENU && key == '0'){LoadNewLevel(0);}
         if (_state == State.GAMEOVER && key == '0'){LoadMenu();}
-
-
         if (_state == State.LEVEL)
         {
             if (key == '*') _displayRef.SetScreenToShow(0);
@@ -100,7 +99,11 @@ public class GameManager
                 int cameraNo = int.Parse(key.ToString());
                 if (cameraNo == 0)
                 {
-                    if (_displayRef.ScreenToShow > 0) _camerasStates[_displayRef.ScreenToShow - 1]^=true;
+                    if (_displayRef.ScreenToShow > 0)
+                    {
+                        _camerasStates[_displayRef.ScreenToShow - 1]^=true;
+                        _displayRef.PlaySound("bip");
+                    }
                 }
                 else if (cameraNo <= _crtLevel.NbOfCameras)
                 {

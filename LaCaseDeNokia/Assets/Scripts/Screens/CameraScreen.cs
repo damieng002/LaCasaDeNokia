@@ -23,7 +23,7 @@ public class CameraScreen: Screen
         _positionX = x;
         _positionY = y;
         _width = width;
-        _height = width / (84 / 48);
+        _height = width / (Display.WIDTH / Display.HEIGHT);
         _background = bg;
         _index = index;
         for (int i = 0; i < nbThieves; i++)
@@ -34,13 +34,12 @@ public class CameraScreen: Screen
 
     private bool ThiefIsHere()
     {
-        Debug.Log(characters.Any(character => character is Thief && PositionIsInCamera(character.getX(), character.getY())));
         return characters.Any(character => character is Thief && PositionIsInCamera(character.getX(), character.getY()));
     }
 
     public override bool[,] BuildFrame()
     {
-        bool[,] screen = new bool[84, 48];
+        bool[,] screen = new bool[Display.WIDTH, Display.HEIGHT];
         // Update thieves positions
         for (int i = 0 ; i < characters.Count; i++)
         {
@@ -48,8 +47,8 @@ public class CameraScreen: Screen
             int cameraWidth = GameManager.Instance.GetCrtLevel().CamerasWidth[_index];
             Position posWorld = GameManager.Instance.GetThiefWorldPosition(i);
             characters[i].SetPosition(
-                (posWorld.X()-cameraPos.X())/(cameraWidth/84), 
-                (posWorld.Y()-cameraPos.Y())/(cameraWidth/84));
+                (posWorld.X()-cameraPos.X())/(cameraWidth/Display.WIDTH), 
+                (posWorld.Y()-cameraPos.Y())/(cameraWidth/Display.WIDTH));
         }
         
         if (GameManager.Instance.GetCameraState(_index))
@@ -73,9 +72,9 @@ public class CameraScreen: Screen
             {
                 GameManager.Instance.LoadLoose();
             }
-            for (int x = 0; x < 84; x++)
+            for (int x = 0; x < Display.WIDTH; x++)
             {
-                for (int y = 0; y < 48; y++)
+                for (int y = 0; y < Display.HEIGHT; y++)
                 {
                     screen[x, y] = r.NextDouble() > 0.5;
                 }
@@ -87,6 +86,6 @@ public class CameraScreen: Screen
 
     private bool PositionIsInCamera(int x, int y)
     {
-        return (x > 0 && x < 84  && y > 0 && y < 48);
+        return (x > 0 && x < Display.WIDTH  && y > 0 && y < Display.HEIGHT);
     }
 }

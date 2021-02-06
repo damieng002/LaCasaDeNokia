@@ -2,34 +2,40 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
+[Serializable] public class AudioClipDictionary : SerializableDictionary<string, AudioClip> { }
 public class Display : MonoBehaviour
 {
-    static readonly int HEIGHT = 48;
-    static readonly int WIDTH = 84;
-    static readonly int TARGET_FPS = 2;
-    static readonly Color32 LIGHT_COLOR = new Color32(199, 240, 246, 255);
-    static readonly Color32 DARK_COLOR = new Color32(67, 82, 61, 255);
+    public static readonly int HEIGHT = 48;
+    public static readonly int WIDTH = 84;
+    public static readonly int TARGET_FPS = 2;
+    public static readonly Color32 LIGHT_COLOR = new Color32(199, 240, 216, 255);
+    public static readonly Color32 DARK_COLOR = new Color32(67, 82, 61, 255);
     
     [SerializeField]
     private GameObject pixelPrefab;
-    private SpriteRenderer[,] pixels;
+    [SerializeField]
+    private AudioClipDictionary audioClips;
+    private AudioSource _audioSource;
+    private SpriteRenderer[,] _pixels;
 
-    private List<Screen> screens = new List<Screen>();
-    private int screenToShow;
+    private List<Screen> _screens = new List<Screen>();
+    private int _screenToShow;
 
     
-    private float crtTime = 0f;
+    private float _crtTime = 0f;
     void Start()
     {
-        pixels = new SpriteRenderer[WIDTH, HEIGHT];
+        _audioSource = GetComponent<AudioSource>();
+        _pixels = new SpriteRenderer[WIDTH, HEIGHT];
         for (int x = 0; x < WIDTH; x++)
         {
             for (int y = 0; y < HEIGHT; y++)
             {
                 GameObject tmp = Instantiate(pixelPrefab);
                 tmp.transform.position = new Vector3(x-WIDTH/2+0.5f,y-HEIGHT/2+0.5f,-1);
-                pixels[x, HEIGHT-y-1] = tmp.GetComponent<SpriteRenderer>();
+                _pixels[x, HEIGHT-y-1] = tmp.GetComponent<SpriteRenderer>();
             }
         }
         GameManager.Instance.SetDisplayRef(this);
@@ -38,16 +44,16 @@ public class Display : MonoBehaviour
 
     public void SetScreens(List<Screen> screens)
     {
-        this.screens = screens;
-        this.screenToShow = 0;
+        this._screens = screens;
+        this._screenToShow = 0;
     }
 
     public void SetScreenToShow(int screenToShow)
     {
-        this.screenToShow = screenToShow;
+        this._screenToShow = screenToShow;
     }
 
-    public int ScreenToShow => screenToShow;
+    public int ScreenToShow => _screenToShow;
 
     private void Update()
     {
@@ -66,10 +72,10 @@ public class Display : MonoBehaviour
 
     private void FixedUpdate()
     {
-        crtTime += Time.fixedDeltaTime;
-        if (crtTime >= 1f / TARGET_FPS)
+        _crtTime += Time.fixedDeltaTime;
+        if (_crtTime >= 1f / TARGET_FPS)
         {
-            crtTime = 0f;
+            _crtTime = 0f;
             GameManager.Instance.NextFrame();
             BuildAndShowFrames();
         }
@@ -77,10 +83,10 @@ public class Display : MonoBehaviour
 
     private void BuildAndShowFrames()
     {
-        for (int i = 0; i < screens.Count; i++)
+        for (int i = 0; i < _screens.Count; i++)
         {
-            bool[,] frame = screens[i].BuildFrame();
-            if (i == screenToShow)
+            bool[,] frame = _screens[i].BuildFrame();
+            if (i == _screenToShow)
             {
                 UpdateDisplay(frame);
             }
@@ -91,16 +97,21 @@ public class Display : MonoBehaviour
     {
         if (frame.GetLength(0) != WIDTH || frame.GetLength(1) != HEIGHT)
         {
-            // show error and exit
-            Debug.Log("Error: Size of frame to show is not 84x48");
+            return;
         }
 
         for (int x = 0; x < WIDTH; x++)
         {
             for (int y = 0; y < HEIGHT; y++)
             {
-                pixels[x, y].color = frame[x, y] ? DARK_COLOR : LIGHT_COLOR;
+                _pixels[x, y].color = frame[x, y] ? DARK_COLOR : LIGHT_COLOR;
             }
         }
+    }
+
+    public void PlaySound(string name)
+    {
+        _audioSource.clip = audioClips[name];
+        _audioSource.Play();
     }
 }
