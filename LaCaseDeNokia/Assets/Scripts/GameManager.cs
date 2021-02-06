@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using DefaultNamespace;
 using UnityEngine;
 using Vector2 = System.Numerics.Vector2;
 
@@ -10,7 +11,8 @@ public class GameManager
     enum State
     {
         MENU,
-        LEVEL
+        LEVEL,
+        GAMEOVER
     }
     
     private Position[] _thievesPositions;
@@ -75,9 +77,19 @@ public class GameManager
         _nbThievesOut = 0;
     }
 
+    public void LoadLoose()
+    {
+        _state = State.GAMEOVER;
+        List<Screen> screens = new List<Screen>();
+        screens.Add(new GameOverScreen());
+        _displayRef.SetScreens(screens);
+    }
+
     public void KeyPressed(char key)
     {
         if (_state == State.MENU && key == '0'){LoadNewLevel(0);}
+        if (_state == State.GAMEOVER && key == '0'){LoadMenu();}
+
 
         if (_state == State.LEVEL)
         {

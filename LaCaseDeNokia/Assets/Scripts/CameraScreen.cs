@@ -16,7 +16,7 @@ public class CameraScreen: Screen
     private readonly int _height;
     private Random r = new Random();
     private int timerOffline = 0;
-    private readonly int _gameOverTime = 10;
+    private readonly int _gameOverTime = 12;
 
     public CameraScreen(int x, int y, int width, Sprite bg, int index, int nbThieves)
     {
@@ -34,12 +34,16 @@ public class CameraScreen: Screen
 
     private bool ThiefIsHere()
     {
-        return characters.Any(character => character is Thief && PositionIsInCamera(character.getX(), character.getX()));
+        return characters.Any(character => character is Thief && PositionIsInCamera(character.getX(), character.getY()));
     }
 
     public override bool[,] BuildFrame()
     {
         bool[,] screen = new bool[84, 48];
+        if (ThiefIsHere())
+        {
+            GameManager.Instance.LoadLoose();
+        }
         if (GameManager.Instance.GetCameraState(_index))
         {
             timerOffline = 0;
@@ -61,7 +65,7 @@ public class CameraScreen: Screen
             timerOffline++;
             if (timerOffline > _gameOverTime)
             {
-                //GameManager.Instance.Loose();
+                GameManager.Instance.LoadLoose();
             }
             for (int x = 0; x < 84; x++)
             {
@@ -77,6 +81,6 @@ public class CameraScreen: Screen
 
     private bool PositionIsInCamera(int x, int y)
     {
-        return (x > _positionX && x < _positionX + _width && y > _positionY && y < _positionY + _height);
+        return (x > 0 && x < 84  && y > 0 && y < 48);
     }
 }
