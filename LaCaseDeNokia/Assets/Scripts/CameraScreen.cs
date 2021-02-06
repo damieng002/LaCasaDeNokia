@@ -64,7 +64,7 @@ public class CameraScreen: Screen
                     screen[x, y] = r.NextDouble() > 0.5;
                 }
             }
-            //Utils.AddSpriteOnScreen(screen, characters[i]);
+            Utils.AddSpriteOnScreen(screen, new OffCam(0,0));
         }
         return screen;
     }

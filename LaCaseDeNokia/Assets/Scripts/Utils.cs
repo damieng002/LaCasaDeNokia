@@ -26,9 +26,9 @@ public class Utils
             for(int y=0; y<spriteArray.GetLength(1);y++)
             {
                 if (spriteArray[x,y]!=Sprite.Colors.Transparent 
-                    && x + sprite.getX() > 0 
+                    && x + sprite.getX() >= 0 
                     && x + sprite.getX() < input.GetLength(0)
-                    && y + sprite.getY() > 0 
+                    && y + sprite.getY() >= 0 
                     && y + sprite.getY() < input.GetLength(1))
                 {
                     input[x + sprite.getX(), y + sprite.getY()] = spriteArray[x, y] == Sprite.Colors.Dark;
