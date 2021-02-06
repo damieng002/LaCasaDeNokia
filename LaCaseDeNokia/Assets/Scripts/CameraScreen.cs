@@ -34,35 +34,41 @@ public class CameraScreen: Screen
 
     private bool ThiefIsHere()
     {
+        Debug.Log(characters.Any(character => character is Thief && PositionIsInCamera(character.getX(), character.getY())));
         return characters.Any(character => character is Thief && PositionIsInCamera(character.getX(), character.getY()));
     }
 
     public override bool[,] BuildFrame()
     {
         bool[,] screen = new bool[84, 48];
-        if (ThiefIsHere())
+        // Update thieves positions
+        for (int i = 0 ; i < characters.Count; i++)
         {
-            GameManager.Instance.LoadLoose();
+            Position cameraPos = GameManager.Instance.GetCrtLevel().CamerasPosition[_index];
+            int cameraWidth = GameManager.Instance.GetCrtLevel().CamerasWidth[_index];
+            Position posWorld = GameManager.Instance.GetThiefWorldPosition(i);
+            characters[i].SetPosition(
+                (posWorld.X()-cameraPos.X())/(cameraWidth/84), 
+                (posWorld.Y()-cameraPos.Y())/(cameraWidth/84));
         }
+        
         if (GameManager.Instance.GetCameraState(_index))
         {
+            if (ThiefIsHere())
+            {
+                GameManager.Instance.LoadLoose();
+            }
             timerOffline = 0;
             Utils.AddSpriteOnScreen(screen,_background);
-            for (int i = 0 ; i < characters.Count; i++)
+            foreach (var character in characters)
             {
-                Position cameraPos = GameManager.Instance.GetCrtLevel().CamerasPosition[_index];
-                int cameraWidth = GameManager.Instance.GetCrtLevel().CamerasWidth[_index];
-                Position posWorld = GameManager.Instance.GetThiefWorldPosition(i);
-                Debug.Log((posWorld.X()-cameraPos.X())/(cameraWidth/84)+" , "+(posWorld.Y()-cameraPos.Y())/(cameraWidth/84));
-                characters[i].SetPosition(
-                    (posWorld.X()-cameraPos.X())/(cameraWidth/84), 
-                    (posWorld.Y()-cameraPos.Y())/(cameraWidth/84));
-                Utils.AddSpriteOnScreen(screen, characters[i]);
+                Utils.AddSpriteOnScreen(screen, character);
             }
         }
         else
         {
-            timerOffline++;
+            if (!ThiefIsHere()) timerOffline++;
+            if (ThiefIsHere()) timerOffline = 0;
             if (timerOffline > _gameOverTime)
             {
                 GameManager.Instance.LoadLoose();

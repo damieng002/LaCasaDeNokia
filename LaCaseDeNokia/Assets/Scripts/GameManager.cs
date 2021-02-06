@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using DefaultNamespace;
 using UnityEngine;
@@ -64,7 +65,7 @@ public class GameManager
         _thievesEnded = new bool[_crtLevel.NbOfThieves];
         _thievesWaypoint = new int[_crtLevel.NbOfThieves];
         _ratsPositions = new Position[_crtLevel.NbOfRats];
-        _camerasStates = new bool[_crtLevel.NbOfCameras];
+        _camerasStates = Enumerable.Repeat(true, _crtLevel.NbOfCameras).ToArray();
         List<Screen> screens = new List<Screen>();
         screens.Add(new MapScreen(_crtLevel.BgMap,_crtLevel.NbOfThieves));
         for (int i = 0; i < _crtLevel.NbOfCameras; i++)
