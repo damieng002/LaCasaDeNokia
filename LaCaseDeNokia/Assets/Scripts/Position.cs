@@ -26,4 +26,9 @@ public class Position
         return _y;
     }
 
+    public Position Copy()
+    {
+        return new Position(_x, _y);
+    }
+
 }

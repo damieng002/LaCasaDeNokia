@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -35,6 +36,11 @@ public class Utils
                 }
             }
         }
+    }
+
+    public static double Distance(Position a, Position b)
+    {
+        return Math.Sqrt(Math.Pow((b.X() - a.X()), 2) + Math.Pow((b.Y() - a.Y()), 2));
     }
 }
 
