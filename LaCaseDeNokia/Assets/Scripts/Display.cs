@@ -7,7 +7,7 @@ public class Display : MonoBehaviour
 {
     static readonly int HEIGHT = 48;
     static readonly int WIDTH = 84;
-    static readonly int TARGET_FPS = 10;
+    static readonly int TARGET_FPS = 2;
     static readonly Color32 LIGHT_COLOR = new Color32(199, 240, 246, 255);
     static readonly Color32 DARK_COLOR = new Color32(67, 82, 61, 255);
     
@@ -70,6 +70,7 @@ public class Display : MonoBehaviour
         if (crtTime >= 1f / TARGET_FPS)
         {
             crtTime = 0f;
+            GameManager.Instance.NextFrame();
             BuildAndShowFrames();
         }
     }

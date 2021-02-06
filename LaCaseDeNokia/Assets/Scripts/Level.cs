@@ -14,8 +14,10 @@ public class Level
     private Sprite[] _bgCameras;
     private Position[] _camerasPosition;
     private int[] _camerasWidth;
+    private int _framesBetweenThieves;
+    private int _thievesSpeed;
 
-    public Level(int nbOfThieves, int nbOfCameras, int nbOfRats, int mapWidth, int mapHeight, Position[] waypoints, Sprite bgMap, Sprite[] bgCameras, Position[] camerasPosition, int[] camerasWidth)
+    public Level(int nbOfThieves, int nbOfCameras, int nbOfRats, int mapWidth, int mapHeight, Position[] waypoints, Sprite bgMap, Sprite[] bgCameras, Position[] camerasPosition, int[] camerasWidth, int framesBetweenThieves, int thievesSpeed)
     {
         _nbOfThieves = nbOfThieves;
         _nbOfCameras = nbOfCameras;
@@ -27,6 +29,8 @@ public class Level
         _bgCameras = bgCameras;
         _camerasPosition = camerasPosition;
         _camerasWidth = camerasWidth;
+        _framesBetweenThieves = framesBetweenThieves;
+        _thievesSpeed = thievesSpeed;
     }
 
     public int NbOfThieves => _nbOfThieves;
@@ -41,4 +45,8 @@ public class Level
 
     public Position[] CamerasPosition => _camerasPosition;
     public int[] CamerasWidth => _camerasWidth;
+
+    public int FramesBetweenThieves => _framesBetweenThieves;
+
+    public int ThievesSpeed => _thievesSpeed;
 }
