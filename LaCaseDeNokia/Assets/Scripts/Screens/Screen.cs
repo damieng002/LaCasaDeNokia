@@ -1,5 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;using UnityEditor.Compilation;
+using System.Collections.Generic;
 
 public abstract class Screen
 {
