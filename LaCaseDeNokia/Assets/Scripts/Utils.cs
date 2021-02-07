@@ -18,11 +18,33 @@ public class Utils
 
         return tmp;
     }
+    
+    public static Sprite.Colors[,] Scale(Sprite.Colors[,] input, int factor)
+    {
+        Sprite.Colors[,] tmp = new Sprite.Colors[input.GetLength(0)*factor, input.GetLength(1)*factor];
+        for (int x = 0; x < input.GetLength(0); x++)
+        {
+            for (int y = 0; y < input.GetLength(1); y++)
+            {
+                for (int xscale = 0; xscale < factor; xscale++)
+                {
+                    for (int yscale = 0; yscale < factor; yscale++)
+                    {
+                        tmp[x*factor+xscale, y*factor+yscale] = input[x, y];
+                    }    
+                }
+                
+            }
+        }
 
-    public static void AddSpriteOnScreen(bool[,] input, Sprite sprite,bool flipX=false)
+        return tmp;
+    }
+
+    public static void AddSpriteOnScreen(bool[,] input, Sprite sprite,bool flipX=false, int scale=1)
     {
         Sprite.Colors[,] spriteArray = sprite.GetSpriteArray();
         if (flipX) spriteArray = Utils.FlipX(spriteArray);
+        if (scale > 1) spriteArray = Utils.Scale(spriteArray, scale);
         for(int x=0; x<spriteArray.GetLength(0);x++)
         {
             for(int y=0; y<spriteArray.GetLength(1);y++)

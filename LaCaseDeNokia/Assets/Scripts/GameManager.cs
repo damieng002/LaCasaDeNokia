@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using DefaultNamespace;
+using TMPro;
 using UnityEngine;
 using Vector2 = System.Numerics.Vector2;
 
@@ -12,8 +13,11 @@ public class GameManager
     enum State
     {
         MENU,
+        EXPLICATION,
+        SHOW_LEVEL_NUM,
         LEVEL,
-        GAMEOVER
+        GAMEOVER,
+        WIN
     }
     
     private Position[] _thievesPositions;
@@ -26,39 +30,66 @@ public class GameManager
     private State _state = State.MENU;
     private List<Level> levels = new List<Level>();
     private Level _crtLevel;
+    private int _crtLevelIndex;
     private int _framesSinceLastThief = 0;
     private int _nbThievesOut = 0;
+    private int _nbFrameSinceScreenLoaded = 0;
     private GameManager()
     {
-        Position[] waypoints = {new Position(710, 280), new Position(170, 280)};
-        Position[] cameraPosition = {new Position(380, 240)};
-        Level level = new Level(
+        Level level1 = new Level(
             1, 
             1, 
             1,
             840, 
             480, 
-            waypoints, 
+            new Position[]{new Position(710, 280), new Position(170, 280)}, 
             new MapLevel1(0, 0), 
             new Sprite[] {new Cam1Level1(0,0)}, 
-            cameraPosition, 
+            new Position[] {new Position(380, 240)}, 
             new int[]{200},
             10,
             10);
-        levels.Add(level);
+        Level level2 = new Level(
+            3, 
+            1, 
+            1,
+            840, 
+            480, 
+            new Position[]{new Position(710, 280), new Position(170, 280)}, 
+            new MapLevel1(0, 0), 
+            new Sprite[] {new Cam1Level1(0,0)}, 
+            new Position[] {new Position(380, 240)}, 
+            new int[]{200},
+            25,
+            10);
+        levels.Add(level1);
+        levels.Add(level2);
     }
 
     public void LoadMenu()
     {
+        _nbFrameSinceScreenLoaded = 0;
         _state = State.MENU;
         List<Screen> screens = new List<Screen>();
         screens.Add(new MenuScreen());
         _displayRef.SetScreens(screens);
     }
 
-    public void LoadNewLevel(int index)
+    public void LoadNewShowLevel(int index)
     {
-        _crtLevel = levels[index];
+        _nbFrameSinceScreenLoaded = 0;
+        _crtLevelIndex = index;
+        _state = State.SHOW_LEVEL_NUM;
+        List<Screen> screens = new List<Screen>();
+        screens.Add(new LevelNameScreen(index+1));
+        _displayRef.SetScreens(screens);
+        _displayRef.SetScreenToShow(0);
+    }
+
+    public void LoadNewLevel()
+    {
+        _nbFrameSinceScreenLoaded = 0;
+        _crtLevel = levels[_crtLevelIndex];
         _state = State.LEVEL;
         _thievesPositions = new Position[_crtLevel.NbOfThieves];
         _thievesDirection = new bool[_crtLevel.NbOfThieves];
@@ -80,8 +111,18 @@ public class GameManager
 
     public void LoadLoose()
     {
+        _nbFrameSinceScreenLoaded = 0;
         _displayRef.PlaySound("police");
         _state = State.GAMEOVER;
+        List<Screen> screens = new List<Screen>();
+        screens.Add(new GameOverScreen());
+        _displayRef.SetScreens(screens);
+    }
+    
+    public void LoadWin()
+    {
+        _nbFrameSinceScreenLoaded = 0;
+        _state = State.WIN;
         List<Screen> screens = new List<Screen>();
         screens.Add(new GameOverScreen());
         _displayRef.SetScreens(screens);
@@ -89,8 +130,8 @@ public class GameManager
 
     public void KeyPressed(char key)
     {
-        if (_state == State.MENU && key == '0'){LoadNewLevel(0);}
-        if (_state == State.GAMEOVER && key == '0'){LoadMenu();}
+        if (_state == State.MENU && key == '0'){LoadNewShowLevel(0);}
+        if (_state == State.GAMEOVER && key == '0' && _nbFrameSinceScreenLoaded>4){LoadMenu();}
         if (_state == State.LEVEL)
         {
             if (key == '*') _displayRef.SetScreenToShow(0);
@@ -115,6 +156,7 @@ public class GameManager
 
     public Position GetThiefWorldPosition(int index)
     {
+        if (_thievesPositions[index]==null) return new Position(-200, -200);
         return _thievesPositions[index];
     }
     
@@ -140,8 +182,19 @@ public class GameManager
 
     public void NextFrame()
     {
+        _nbFrameSinceScreenLoaded++;
+        if (_state == State.SHOW_LEVEL_NUM)
+        {
+            if(_nbFrameSinceScreenLoaded>4) LoadNewLevel();
+        }
         if (_state == State.LEVEL)
         {
+            _framesSinceLastThief++;
+            if (_thievesEnded.All(x => x))
+            {
+                if (_crtLevelIndex <= levels.Count - 1) LoadNewShowLevel(_crtLevelIndex + 1);
+                else LoadWin();
+            }
             for (int i = 0; i < _nbThievesOut; i++)
             {
                 if (_thievesEnded[i]) continue;
@@ -185,6 +238,7 @@ public class GameManager
             if (_nbThievesOut == 0 || (_nbThievesOut < _crtLevel.NbOfThieves &&
                                        _framesSinceLastThief >= _crtLevel.FramesBetweenThieves))
             {
+                _framesSinceLastThief = 0;
                 int newId = _nbThievesOut++;
                 _thievesDirection[newId] = false;
                 _thievesWaypoint[newId] = 1;
