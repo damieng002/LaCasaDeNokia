@@ -15,7 +15,6 @@ public class Utils
                 tmp[x, y] = input[input.GetLength(0) - x-1, y];
             }
         }
-
         return tmp;
     }
     
@@ -33,7 +32,6 @@ public class Utils
                         tmp[x*factor+xscale, y*factor+yscale] = input[x, y];
                     }    
                 }
-                
             }
         }
 
