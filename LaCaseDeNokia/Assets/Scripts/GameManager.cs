@@ -124,7 +124,7 @@ public class GameManager
         _nbFrameSinceScreenLoaded = 0;
         _state = State.WIN;
         List<Screen> screens = new List<Screen>();
-        screens.Add(new GameOverScreen());
+        screens.Add(new WinScreen());
         _displayRef.SetScreens(screens);
     }
 
@@ -132,6 +132,7 @@ public class GameManager
     {
         if (_state == State.MENU && key == '0'){LoadNewShowLevel(0);}
         if (_state == State.GAMEOVER && key == '0' && _nbFrameSinceScreenLoaded>4){LoadMenu();}
+        if (_state == State.WIN && key == '0' && _nbFrameSinceScreenLoaded>4){LoadMenu();}
         if (_state == State.LEVEL)
         {
             if (key == '*') _displayRef.SetScreenToShow(0);

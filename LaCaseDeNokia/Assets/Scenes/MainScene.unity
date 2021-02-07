@@ -164,6 +164,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pixelPrefab: {fileID: 8201736289369305243, guid: e3044de70f09a89448fe71beac214f87, type: 3}
+  audioClips:
+    _Buckets: 0100000000000000ffffffff
+    _HashCodes: 53ec4014d8bdc16500000000
+    _Next: ffffffffffffffff00000000
+    _Count: 2
+    _Version: 23
+    _FreeList: -1
+    _FreeCount: 0
+    _Keys:
+    - bip
+    - police
+    - 
+    _Values:
+    - {fileID: 8300000, guid: 7298564673ea14b458b3ab4dd5b565d2, type: 3}
+    - {fileID: 8300000, guid: 638da31c35c9a224f9633e68bc08a362, type: 3}
+    - {fileID: 0}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
